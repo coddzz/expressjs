@@ -3,6 +3,11 @@ const app = express()
 const path = require('path')
 const PORT = process.env.PORT || 3000;
 
+//built-in middlewares
+app.use(express.urlencoded({extended:false}));
+app.use(express.json());
+app.use(express.static(path.join(__dirname,'./public')));
+
 app.get('^/$|/index(.html)?',(req, res)=>{
     res.sendFile(path.join(__dirname,'views','index.html'))
 })
@@ -14,7 +19,6 @@ app.get('/new-page(.html)?',(req, res)=>{
 app.get('/old-page(.html)?',(req, res) => {
     res.redirect(301,'new-page.html');
 })
-
 
 // req,res,next function
 app.get('/demo(.html)?',(req, res, next)=>{
@@ -43,7 +47,6 @@ app.get('/chain(.html)?',[one,two,three]);
 app.get('/*',(req, res)=>{
     res.status(404).sendFile(path.join(__dirname,'views','404.html'))
 })
-
 
 
 app.listen(PORT, () => console.log(`Server Running on PORT: ${PORT}`));
