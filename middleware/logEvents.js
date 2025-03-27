@@ -18,5 +18,10 @@ const logEvents = async (message) => {
         console.log(err)
     }
 }
+const logger = (req, res, next) =>{
+    logEvents(`${req.method} \t ${req.header.origin} \t ${req.url}`)
+    console.log(`${req.method} ${req.path}`)
+    next()
+}
 
-logEvents()
+module.exports = {logger, logEvents} ;
