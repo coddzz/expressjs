@@ -2,10 +2,10 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const PORT = process.env.PORT || 3000;
-const cors = require('cors')
 
+const errorHandler = require('./middleware/errorHandler')
 const {logger} = require('./middleware/logEvents');
-
+const cors = require('cors')
 
 //built-in middlewares
 app.use(express.urlencoded({extended:false}));
@@ -71,5 +71,5 @@ app.get('/*',(req, res)=>{
     res.status(404).sendFile(path.join(__dirname,'views','404.html'))
 })
 
-
+app.use(errorHandler)
 app.listen(PORT, () => console.log(`Server Running on PORT: ${PORT}`));

@@ -1,0 +1,1 @@
+28-03-2025	13:52:24 	 1ead649a-a998-4c89-b3f9-8b3cb1f08d17 	 TypeError: path.joi is not a function
