@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const PORT = process.env.PORT || 3000;
+const cors = require('cors')
 
 const {logger} = require('./middleware/logEvents');
 
@@ -13,6 +14,22 @@ app.use(express.static(path.join(__dirname,'./public')));
 
 //custom middleware
 app.use(logger)
+
+// third-party middleware
+//cross origin resoursce sharing
+const whitelist = ['http://127.0.0.1:5500','http://localhost:3500']
+const corsOptions = {
+    origin: (origin, callback) =>{
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by Cors'));
+        }
+    },
+    optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions))
+
 
 app.get('^/$|/index(.html)?',(req, res)=>{
     res.sendFile(path.join(__dirname,'views','index.html'))
